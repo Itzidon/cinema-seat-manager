@@ -1,0 +1,136 @@
+type Seat = 0 | 1;
+type CinemaRoom = Seat[][];
+
+const ROWS = 8;
+const COLUMNS = 10;
+
+// Crear sala
+function createRoom(): CinemaRoom {
+  const room: CinemaRoom = [];
+
+  for (let row = 0; row < ROWS; row++) {
+    const seats: Seat[] = [];
+
+    for (let column = 0; column < COLUMNS; column++) {
+      seats.push(0);
+    }
+
+    room.push(seats);
+  }
+
+  return room;
+}
+
+// Mostrar sala
+function showRoom(room: CinemaRoom): void {
+  console.log("\nEstado de la sala:");
+
+  console.log("   " + [...Array(COLUMNS)].map((_, i) => i).join(" "));
+
+  for (let row = 0; row < room.length; row++) {
+    let rowText = `${row}  `;
+
+    for (let column = 0; column < room[row].length; column++) {
+      rowText += room[row][column] === 1 ? "X " : "L ";
+    }
+
+    console.log(rowText);
+  }
+}
+
+// Reservar asiento
+function reserveSeat(
+  room: CinemaRoom,
+  row: number,
+  column: number
+): boolean {
+
+  if (
+    row < 0 ||
+    row >= room.length ||
+    column < 0 ||
+    column >= room[row].length
+  ) {
+    console.log("Asiento inválido");
+    return false;
+  }
+
+  if (room[row][column] === 1) {
+    console.log(`El asiento ${row}-${column} ya está ocupado`);
+    return false;
+  }
+
+  room[row][column] = 1;
+
+  console.log(`Reserva confirmada para ${row}-${column}`);
+
+  return true;
+}
+
+// Contar asientos
+function countSeats(room: CinemaRoom): void {
+  let occupied = 0;
+  let available = 0;
+
+  for (let row = 0; row < room.length; row++) {
+    for (let column = 0; column < room[row].length; column++) {
+
+      if (room[row][column] === 1) {
+        occupied++;
+      } else {
+        available++;
+      }
+
+    }
+  }
+
+  console.log(`Ocupados: ${occupied}`);
+  console.log(`Disponibles: ${available}`);
+}
+
+// Buscar dos asientos juntos
+function findContiguousSeats(room: CinemaRoom): void {
+
+  for (let row = 0; row < room.length; row++) {
+
+    for (let column = 0; column < room[row].length - 1; column++) {
+
+      if (
+        room[row][column] === 0 &&
+        room[row][column + 1] === 0
+      ) {
+
+        console.log(
+          `Asientos contiguos encontrados en fila ${row}: ${column} y ${column + 1}`
+        );
+
+        return;
+      }
+    }
+  }
+
+  console.log("No hay asientos contiguos disponibles");
+}
+
+// -------------------
+// PRUEBAS
+// -------------------
+
+const cinema = createRoom();
+
+console.log("Sala vacía");
+showRoom(cinema);
+
+reserveSeat(cinema, 0, 0);
+reserveSeat(cinema, 0, 1);
+reserveSeat(cinema, 3, 5);
+
+console.log("\nSala después de reservas");
+showRoom(cinema);
+
+countSeats(cinema);
+
+findContiguousSeats(cinema);
+
+// Intentar reservar asiento ocupado
+reserveSeat(cinema, 0, 0);
