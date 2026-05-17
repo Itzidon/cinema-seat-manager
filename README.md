@@ -1,4 +1,4 @@
-# Cinema Seat Manager
+# Encargado de asientos de cine
 
 Proyecto desarrollado en TypeScript para gestionar una sala de cine mediante una matriz bidimensional.
 
