@@ -107,28 +107,54 @@ function findContiguousSeats(
 // PRUEBAS
 // -------------------
 
+console.log("SALA VACÍA");
+const emptyRoom = createRoom();
+showRoom(emptyRoom);
+countSeats(emptyRoom);
+findContiguousSeats(emptyRoom);
+
+console.log("\nSALA PARCIALMENTE OCUPADA");
 const cinema = createRoom();
 
-console.log("Sala vacía");
-showRoom(cinema);
-
-console.log("\nReservando asientos");
 reserveSeat(cinema, 0, 0);
 reserveSeat(cinema, 0, 1);
 reserveSeat(cinema, 3, 5);
 
-console.log("\nSala después de reservas");
 showRoom(cinema);
-
-console.log("\nContando asientos");
 countSeats(cinema);
-
-console.log("\nBuscando asientos contiguos");
 const contiguousSeats = findContiguousSeats(cinema);
 console.log(contiguousSeats);
 
-console.log("\nIntentando reservar un asiento ocupado");
+console.log("\nINTENTANDO RESERVAR UN ASIENTO OCUPADO");
 reserveSeat(cinema, 0, 0);
 
-console.log("\nIntentando reservar un asiento inválido");
+console.log("\nINTENTANDO RESERVAR UN ASIENTO INVÁLIDO");
 reserveSeat(cinema, 10, 20);
+
+console.log("\nSALA CASI LLENA CON ASIENTOS SUELTOS");
+const almostFullRoom = createRoom();
+
+for (let row = 0; row < ROWS; row++) {
+  for (let column = 0; column < COLUMNS; column++) {
+    if (column % 2 === 0) {
+      almostFullRoom[row][column] = 1;
+    }
+  }
+}
+
+showRoom(almostFullRoom);
+countSeats(almostFullRoom);
+findContiguousSeats(almostFullRoom);
+
+console.log("\nSALA COMPLETAMENTE LLENA");
+const fullRoom = createRoom();
+
+for (let row = 0; row < ROWS; row++) {
+  for (let column = 0; column < COLUMNS; column++) {
+    fullRoom[row][column] = 1;
+  }
+}
+
+showRoom(fullRoom);
+countSeats(fullRoom);
+findContiguousSeats(fullRoom);
